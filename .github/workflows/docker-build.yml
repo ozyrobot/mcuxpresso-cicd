@@ -32,4 +32,3 @@ jobs:
         with:
           name: firmware
           path: project/build/
-name: Build & Test MCUXpresso SDK Project
