@@ -58,7 +58,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace mcuxpresso-sdk bash -c "
             cd /workspace/project && \
-            west build -b <your_board_name>
+            west build -b frdmmcxa153
           "
 
       - name: Upload firmware artifacts
