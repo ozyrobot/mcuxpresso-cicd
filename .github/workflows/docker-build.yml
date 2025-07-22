@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,21 +20,49 @@ jobs:
         run: |
           docker build -t mcuxpresso-sdk .
 
-      - name: Run container and initialize SDK with custom manifest
+      - name: Build the application inside container
         run: |
-          docker run --rm mcuxpresso-sdk bash -c "
-          cd /workspace/mcuxsdk-manifests &&
-          west init -l --mf /workspace/custom_west.yml . &&
-          west update"
+          docker run --rm -v ${{ github.workspace }}:/workspace mcuxpresso-sdk bash -c "
+            cd /workspace/project && \
+            west build -b <your_board_name>
+          "
 
-      - name: Build the application
-        run: |
-          docker run --rm mcuxpresso-sdk bash -c "
-          cd /workspace/my_app &&
-          west build -b your_board"
-
-      - name: Store Build Artifacts
+      - name: Upload firmware artifacts
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: /workspace/my_app/build/output/
+          path: project/build/
+name: Build & Test MCUXpresso SDK Project
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker container
+        run: |
+          docker build -t mcuxpresso-sdk .
+
+      - name: Build the application inside container
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace mcuxpresso-sdk bash -c "
+            cd /workspace/project && \
+            west build -b <your_board_name>
+          "
+
+      - name: Upload firmware artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: project/build/
