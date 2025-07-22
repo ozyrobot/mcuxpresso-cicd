@@ -36,7 +36,7 @@ int main(void)
     /* Init board hardware. */
     BOARD_InitHardware();
 
-    PRINTF("hello world.\r\n");
+    PRINTF("1cicd-hello world.\r\n");
 
     while (1)
     {
