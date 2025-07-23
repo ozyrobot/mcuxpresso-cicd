@@ -19,12 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Initialize west workspace
-        run: |
-          cd /workspace/mcuxsdk-manifests
-          west init -l .
-          west update
-
       - name: Copy my_app into west workspace
         run: |
           cp -r $GITHUB_WORKSPACE/my_app /workspace/mcuxsdk-manifests/my_app
