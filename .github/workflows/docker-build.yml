@@ -1,34 +1,28 @@
-name: Build & Test MCUXpresso SDK Project
+name: Build MCUXpresso Project
 
 on:
   push:
-    branches:
-      - master
+    branches: [ main ]
   pull_request:
-    branches:
-      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: ghcr.io/nxp-jose/mcuxpresso-sdk:latest
+      credentials:
+        username: ${{ secrets.GH_USERNAME }}
+        password: ${{ secrets.GH_PAT }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build Docker container
+      - name: Build project using west
         run: |
-          docker build -t mcuxpresso-sdk .
-
-      - name: Build the application inside container
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace mcuxpresso-sdk bash -c "
-            cd /workspace/project && \
-            west build -b frdmmcxa153
-          "
-
-      - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware
-          path: project/build/
+          echo "Navigating to project directory..."
+          cd project
+          
+          echo "Building project..."
+          west build -b frdmmcxa153 .
