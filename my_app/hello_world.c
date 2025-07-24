@@ -34,7 +34,7 @@ int main(void)
     char ch;
 
     /* Init board hardware. */
-    BOARD_InitHardware();
+    BOARD_InitHardware()
 
     PRINTF("Hello Hawaii.\r\n");
 
