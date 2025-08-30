@@ -36,7 +36,7 @@ int main(void)
     /* Init board hardware. */
     BOARD_InitHardware();
 
-    PRINTF("Hello NXP.\r\n");
+    PRINTF("Hello NXP, again.\r\n");
 
     while (1)
     {
