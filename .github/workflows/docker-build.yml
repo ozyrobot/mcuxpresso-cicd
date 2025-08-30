@@ -11,9 +11,6 @@ jobs:
 
     container:
       image: ghcr.io/nxp-jose/mcuxpresso-sdk:latest
-      credentials:
-        username: ${{ secrets.GH_USERNAME }}
-        password: ${{ secrets.GH_PAT }}
 
     steps:
       - name: Checkout repository
